@@ -1,0 +1,44 @@
+﻿using PacketComponent;
+using SocketComponent;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SocketTest
+{
+    public delegate void SendData(byte[] data);
+    public class ServerService
+    {
+        public static SendData send;
+        private readonly ServerConnect socket;
+        public ServerService(string ip, int port)
+        {
+            socket = new ServerConnect(ip, port, RecvPacket);
+            send += socket.send;
+        }
+
+        public void RecvPacket(byte[] data)
+        {
+            ReadPacket r = new ReadPacket(data);
+            int byteslength = r.readInt(); // 총 bytes 길이
+            int opcode = r.readInt();
+            switch (opcode)
+            {
+                case 255:
+                    {
+
+                        break;
+                    }
+            }
+        }
+
+        public static void Send(byte[] data)
+        {
+            send(data);
+        }
+    }
+}
