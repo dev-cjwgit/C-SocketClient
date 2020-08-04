@@ -1,3 +1,5 @@
+Thread Pool Client Socket
+
 I didn't throw exceptions.
 
 How connect to server?
@@ -22,3 +24,4 @@ SendPacket s = new SendPacket();
 s.writeType(); // s.wrtieInt() ... extra
 ServerService.send(s.getPacket()); // It is important!!!
 
+If you don't want to use threadpool, remove to "private void recvData(object obj)" and task to "public void RecvPacket(byte[] data)"
