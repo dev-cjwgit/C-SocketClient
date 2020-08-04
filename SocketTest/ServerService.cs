@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SocketTest
@@ -25,17 +26,24 @@ namespace SocketTest
         {
             ReadPacket r = new ReadPacket(data);
             int byteslength = r.readInt(); // 총 bytes 길이
+            if (!ThreadPool.QueueUserWorkItem(recvData, r))
+            {
+                Console.WriteLine("Error");
+            }
+        }
+        private void recvData(object obj)
+        {
+            ReadPacket r = obj as ReadPacket;
             int opcode = r.readInt();
             switch (opcode)
             {
                 case 255:
                     {
-
+                        Console.WriteLine("Login");
                         break;
                     }
             }
         }
-
         public static void Send(byte[] data)
         {
             send(data);
